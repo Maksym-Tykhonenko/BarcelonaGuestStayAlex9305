@@ -50,18 +50,26 @@ export function AppNavigator() {
         setInitialUrl(FALLBACK_URL);
       }
     };
-{/** */}
+
     const initOnsignall = async () => {
-    // Remove this method to stop OneSignal Debugging
-    OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+      try {
+        // Verbose-логи лишаємо тільки в дебазі
+        if (__DEV__) {
+          OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+        }
 
-    // OneSignal ініціалізація
-    OneSignal.initialize(oneSignKkkk);
-    //OneSignal.Debug.setLogLevel(OneSignal.LogLevel.Verbose);
-  };
-
-    loadRemoteConfig();
+        // OneSignal ініціалізація
+        if (oneSignKkkk) {
+          OneSignal.initialize(oneSignKkkk);
+        }
+      } catch (e) {
+        console.log('OneSignal init error:', e);
+      }
+    };
+    
     initOnsignall();
+    loadRemoteConfig();
+    
   }, []);
 
   if (!initialUrl) {
