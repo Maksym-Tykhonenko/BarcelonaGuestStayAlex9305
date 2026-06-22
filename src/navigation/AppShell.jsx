@@ -829,10 +829,10 @@ export function AppShell({
 };
 
 const AppShellNav = () => {
-  const {phase, finishLoader, finishOnboarding} = useAppNavigation();
+  const {phase, finishOnboarding} = useAppNavigation();
 
   if (phase === 'Loader') {
-    return <LoaderScreen onComplete={finishLoader} />;
+    return <LoaderScreen />;
   }
 
   if (phase === 'Onboarding') {

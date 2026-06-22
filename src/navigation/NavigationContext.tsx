@@ -220,3 +220,9 @@ export function useAppNavigation() {
   }
   return context;
 }
+
+// Non-throwing variant for components that may render outside the provider
+// (e.g. the loader shown before NavigationProvider mounts).
+export function useOptionalAppNavigation() {
+  return useContext(NavigationContext);
+}

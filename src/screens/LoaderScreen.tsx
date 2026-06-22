@@ -12,16 +12,15 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {icons} from '../data/assets';
 import {colors, fonts, radius} from '../constants/theme';
+import {useOptionalAppNavigation} from '../navigation/NavigationContext';
 
 const LOGO_SIZE = 270;
 
-type LoaderScreenProps = {
-  onComplete: () => void;
-};
-
-export function LoaderScreen({onComplete}: LoaderScreenProps) {
+export function LoaderScreen() {
   const insets = useSafeAreaInsets();
   const progress = useRef(new Animated.Value(0)).current;
+  const navigation = useOptionalAppNavigation();
+  const finishLoader = navigation?.finishLoader;
 
   useEffect(() => {
     const animation = Animated.timing(progress, {
@@ -32,14 +31,14 @@ export function LoaderScreen({onComplete}: LoaderScreenProps) {
 
     animation.start(({finished}) => {
       if (finished) {
-        onComplete();
+        finishLoader?.();
       }
     });
 
     return () => {
       animation.stop();
     };
-  }, [onComplete, progress]);
+  }, [finishLoader, progress]);
 
   const fillWidth = progress.interpolate({
     inputRange: [0, 1],
